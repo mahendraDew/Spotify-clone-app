@@ -1,11 +1,37 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import Sidebar from './Sidebar'
 import Navbar from './Navbar'
 import Body from './Body'
 import Footer from './Footer'
+import { useStateProvider } from '../utils/StateProvider'
+
+import axios from 'axios'
+import { reducerCases } from '../utils/Constants'
 
 export default function Spotify () {
+  const [{ token }, dispatch] = useStateProvider()
+
+  useEffect(() => {
+    const getUserInfo = async () => {
+      const { data } = await axios.get('https://api.spotify.com/v1/me', {
+        headers: {
+          Authorization: 'Bearer ' + token,
+          'Content-Type': 'application/json'
+        },
+      });
+      console.log({data}, "from spotify.jsx");
+      const userInfo = {
+        userId: data.id,
+        userName: data.display_name,
+      };
+      console.log({userInfo}, "from spotify.jsx");
+      dispatch({ type: reducerCases.SET_USER, userInfo });
+      
+    };
+    getUserInfo();
+  }, [dispatch, token]);
+
   return (
     <Container>
       <div className='spotify_body'>
