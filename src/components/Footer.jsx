@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import CurrentTrack from './CurrentTrack';
 import axios from 'axios';
 import PlayerControls from './PlayerControls';
+import Volume from './Volume';
 
 export default function Footer() {
   
@@ -11,6 +12,7 @@ export default function Footer() {
     <Container>
       <CurrentTrack />
       <PlayerControls />
+      <Volume />
     </Container>
   )
 }
